@@ -27,12 +27,14 @@ bool SenderClass::sendMQTT(String server, uint16_t port, String username, String
     _mqttClient.setCallback([this](char *topic, byte *payload, unsigned int length) { this->mqttCallback(topic, payload, length); });
 
     byte i = 0;
-
+    bool connected = false;
+    
     while (!_mqttClient.connected() && (i < 3)) {
         DEBUG_PRINTLN(F("Attempting MQTT connection"));
         // Attempt to connect
         if (_mqttClient.connect(name.c_str(), username.c_str(), password.c_str())) {
             DEBUG_PRINTLN(F("Connected to MQTT"));
+            connected = true;
         } else {
             DEBUG_PRINTLN(F("Failed MQTT connection, return code:"));
 
@@ -81,6 +83,8 @@ bool SenderClass::sendMQTT(String server, uint16_t port, String username, String
             delay(5000);
         }
     }
+    
+    if (connected == false) return false;
     //MQTT publish values
     for (JsonPair kv : doc.as<JsonObject>()) {
       DEBUG_PRINTLN("MQTT publish: " + name + "/" + kv.key().c_str() + ": " + kv.value().as<String>().c_str());
