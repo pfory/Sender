@@ -80,7 +80,7 @@ bool SenderClass::sendMQTT(String server, uint16_t port, String username, String
             DEBUG_PRINTLN(F("Retrying MQTT connection in 5 seconds"));
             // Wait 5 seconds before retrying
             i++;
-            delay(5000);
+            delay(500);
         }
     }
     
