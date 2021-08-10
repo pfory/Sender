@@ -24,7 +24,7 @@ void SenderClass::add(String id, int32_t value) {
 bool SenderClass::sendMQTT(String server, uint16_t port, String username, String password, String name) {
     _mqttClient.setClient(_client);
     _mqttClient.setServer(server.c_str(), port);
-    _mqttClient.setCallback([this](char *topic, byte *payload, unsigned int length) { this->mqttCallback(topic, payload, length); });
+    //_mqttClient.setCallback([this](char *topic, byte *payload, unsigned int length) { this->mqttCallback(topic, payload, length); });
 
     byte i = 0;
     bool connected = false;
@@ -89,7 +89,7 @@ bool SenderClass::sendMQTT(String server, uint16_t port, String username, String
     for (JsonPair kv : doc.as<JsonObject>()) {
       DEBUG_PRINTLN("MQTT publish: " + name + "/" + kv.key().c_str() + ": " + kv.value().as<String>().c_str());
       _mqttClient.publish((name + "/" + kv.key().c_str()).c_str(), kv.value().as<String>().c_str());
-      _mqttClient.loop(); //This should be called regularly to allow the client to process incoming messages and maintain its connection to the server.
+      //_mqttClient.loop(); //This should be called regularly to allow the client to process incoming messages and maintain its connection to the server.
     }
     
     DEBUG_PRINTLN(F("Closing MQTT connection"));
@@ -98,11 +98,11 @@ bool SenderClass::sendMQTT(String server, uint16_t port, String username, String
     return true;
 }
 
-void SenderClass::mqttCallback(char *topic, byte *payload, unsigned int length) {
-    DEBUG_PRINTLN(F("MQTT message arrived ["));
-    DEBUG_PRINTLN(topic);
-    DEBUG_PRINTLN(F("] "));
-    for (unsigned int i = 0; i < length; i++) {
-        DEBUG_PRINTLN((char)payload[i]);
-    }
-}
+// void SenderClass::mqttCallback(char *topic, byte *payload, unsigned int length) {
+    // DEBUG_PRINTLN(F("MQTT message arrived ["));
+    // DEBUG_PRINTLN(topic);
+    // DEBUG_PRINTLN(F("] "));
+    // for (unsigned int i = 0; i < length; i++) {
+        // DEBUG_PRINTLN((char)payload[i]);
+    // }
+// }

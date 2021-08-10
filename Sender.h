@@ -31,7 +31,7 @@ public:
   void add(String id, String value);
   void add(String id, int32_t value);
   void add(String id, uint32_t value);
-  void mqttCallback(char* topic, byte* payload, unsigned int length);
+  //void mqttCallback(char* topic, byte* payload, unsigned int length);
   // ~SenderClass();
 
 private:
